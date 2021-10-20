@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import React from 'react';
+//import CustomInput from './components/CustomInput/CustomInput';
+import List from './components/List/List';
+import Task from './components/Task/Task';
+
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      tasksArr: [],
+      newTask: ''
+    }
+    this.changeInput = this.changeInput.bind(this);
+    this.addTask = this.addTask.bind(this);
+
+    
+  }
+  changeInput(e){
+    this.setState({
+      newTask: e.target.value
+    })
+  }
+  addTask(){
+      this.setState({
+        tasksArr : [...this.state.tasksArr, {
+                        text : this.state.newTask,
+                        done : false
+                      }]
+      })
+      this.setState({
+        newTask: ''
+      })
+  }
+  
+
+
+  render(){
+    const {tasksArr, newTask} = this.state;
+    return (
+      <>
+        <input type="text" value = {newTask} onChange = {this.changeInput} />
+        <button onClick = {this.addTask}>Add new task</button>
+
+        <Task text= {newTask}/>
+        <List tasks = {tasksArr}/>
+      </>
+    );
+  }
 }
 
 export default App;
